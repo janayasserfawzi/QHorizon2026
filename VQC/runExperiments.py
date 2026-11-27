@@ -2,6 +2,7 @@
   python VQC/runExperiments.py --stage debug   # ~1 min sanity check, binary task
   python VQC/runExperiments.py --stage depth   # depth 1-4, Adam, 4class
   python VQC/runExperiments.py --stage optim   # Adam vs SGD vs COBYLA at depth 2
+  python VQC/runExperiments.py --stage deep    # depth 5-6, Adam
   python VQC/runExperiments.py --stage all
 """
 import argparse, os, sys
@@ -32,11 +33,14 @@ def plan(stage):
     if stage in ("optim", "all"):
         p += [dict(task="4class", optimizer=o, depth=2, n_train=n, seed=s)
               for o in ("sgd", "cobyla") for n in NS for s in SEEDS]
+    if stage in ("deep", "all"):
+        p += [dict(task="4class", optimizer="adam", depth=d, n_train=n, seed=s)
+              for d in (5, 6) for n in NS for s in SEEDS]
     return p
 
 
 ap = argparse.ArgumentParser()
-ap.add_argument("--stage", default="debug", choices=["debug", "depth", "optim", "all"])
+ap.add_argument("--stage", default="debug", choices=["debug", "depth", "optim", "deep", "all"])
 a = ap.parse_args()
 
 done = set()

@@ -8,7 +8,7 @@
 5. **Init: uniform [0, 2pi], seeded.** Same seed -> same start, reproducible.
 
 ## Sweeps
-- **Depth 1-4** (Adam, all 5 seeds x 4 training sizes). Depth 1 is the minimum; deeper adds expressivity (21 params/layer on 7 qubits) at the cost of runtime and trainability.
+- **Depth 1-6** (Adam, all 5 seeds x 4 training sizes). Depth 1 is the minimum; deeper adds expressivity (21 params/layer on 7 qubits) at the cost of runtime and trainability.
 - **Optimizer at depth 2:** Adam (adaptive, robust), plain gradient descent (shows optimizer matters), COBYLA (gradient-free, what you'd use on noisy hardware). Same budget: 60 steps, full batch, lr 0.1 (COBYLA 180 evaluations).
 
 ## Results (4class, mean accuracy over 5 seeds x 4 train sizes)
@@ -18,8 +18,10 @@
 | 2 | 0.72 | 2.1 s |
 | 3 | 0.84 | 3.1 s |
 | 4 | 0.88 | 3.9 s |
+| 5 | 0.88 | 4.9 s |
+| 6 | 0.92 | 6.2 s |
 
-Optimizers at depth 2: Adam 0.72, COBYLA 0.64, SGD 0.41. Takeaways: depth 1 is too weak (near chance, 25%); accuracy still rising at depth 4 with diminishing returns; Adam clearly beats plain SGD at the same steps; COBYLA is competitive without gradients.
+Optimizers at depth 2: Adam 0.72, COBYLA 0.64, SGD 0.41. Takeaways: depth 1 is too weak (near chance, 25%); gains flatten after depth 3 (0.84 -> 0.88 -> 0.88 -> 0.92) while runtime keeps growing roughly linearly with depth; Adam clearly beats plain SGD at the same steps; COBYLA is competitive without gradients.
 
 ## Fairness
 Data only via `load_saved_split(seed, n_train, task)`; seeds 0-4; same test sets as every model. Output: `results/person3_vqc.csv` (shared columns + task, optimizer).
