@@ -21,7 +21,7 @@ Members: Jana Fawzi, Yasmine Mohamed, Jana Salama, Janna Alfiky
 
 **Variational quantum classifier (VQC).** Same angle encoding as the kernel (one rotation per feature, 7 qubits), so VQC vs kernel compares the model and not the encoding. The trainable part is a standard `StronglyEntanglingLayers` circuit (rotations on every qubit plus a ring of CNOTs). The first two qubits are measured to give the 4 room probabilities, trained with cross-entropy loss, 60 steps, learning rate 0.1. We ran depth 1 to 6 with the Adam optimizer, and at depth 2 also plain gradient descent and COBYLA (gradient-free). All of them are reported; we do not pick a "best" depth using test accuracy.
 
-**Noise.** To test hardware-like conditions we estimated each kernel entry by sampling (1024 shots) on a noisy simulator with depolarizing gate errors and readout errors, sweeping the two-qubit error from 0 to 5% (4 qubits, 25 training samples, 3 seeds).
+**Noise.** To test hardware-like conditions we estimated each kernel entry by sampling (1024 shots) on a noisy simulator with depolarizing gate errors and readout errors, sweeping the two-qubit error from 0 to 5% (4 qubits, 25 training samples, 2 seeds).
 
 ## 3. Results
 

@@ -14,6 +14,3 @@
 **Learning material**
 - Q//Horizon 2026 starter lecture slides (5.1-5.4)
 - IBM Quantum Learning: *Introduction to Quantum Machine Learning* (data encoding, quantum kernels, variational classifiers)
-
-**Reused code**
-- TODO (everyone): list any code copied from documentation/tutorials, with the URL. If none, write "none beyond library calls".
