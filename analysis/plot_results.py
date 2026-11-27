@@ -4,7 +4,7 @@ plot_results.py -- Person 4
 Reads results/person*.csv (+ results/noise_p4.csv if it exists), writes figures to
 report/figures/ and tables to results/summary_headline.csv, summary_paired.csv.
 
-    python Person4/plot_results.py
+    python analysis/plot_results.py
 
 Nothing here picks a "best" configuration on test accuracy: every VQC depth/optimizer is shown.
 """

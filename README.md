@@ -14,7 +14,7 @@
 | `VQC/` | Person 3 | VQC (PennyLane) and experiments |
 | `baselines.py` | Person 1 | Classical baselines (tuned by CV on train only) |
 | `check_results.py` | Person 1 | Checks all result CSVs, writes `all_results.csv` and `summary_mean_std.csv` |
-| `Person4/` | Person 4 | `plot_results.py`, `noise_experiments.py` |
+| `analysis/` | Person 4 | `plot_results.py`, `noise_experiments.py` |
 | `results/` | everyone | One CSV per person, same columns (see below) |
 | `report/` | Person 4 | Report source and figures |
 
@@ -27,9 +27,9 @@ python baselines.py                                    # classical baselines
 python Kernel/runExperiments.py --stage all                     # quantum kernel sweep (slow for 7 qubits)
 python VQC/runExperiments.py --stage all               # VQC sweep (resumable)
 python check_results.py                                # must say: All checks passed.
-python Person4/noise_experiments.py --stage main       # noise sweep (4 qubits, 25 train, 3 seeds)
-python Person4/check_C_tuning.py                       # does tuning C help the kernel? (1 min)
-python Person4/plot_results.py                         # figures -> report/figures, tables -> results/summary_headline.csv and summary_paired.csv
+python analysis/noise_experiments.py --stage main       # noise sweep (4 qubits, 25 train, 3 seeds)
+python analysis/check_C_tuning.py                       # does tuning C help the kernel? (1 min)
+python analysis/plot_results.py                         # figures -> report/figures, tables -> results/summary_headline.csv and summary_paired.csv
 ```
 Splits are frozen in `data/splits/`; every model must load data through `data_prep.load_saved_split(seed, n_train, task)`. Seeds are 0 to 4, test set is 200 samples for every model.
 

@@ -8,8 +8,8 @@ by running U(x')^dagger U(x) on a noisy simulator and measuring P(all zeros).
 Results are APPENDED to results/noise_p4.csv with the shared contract columns plus
 extras (task, noise_p2, shots), so a re-run skips finished rows.
 
-    python Person4/noise_experiments.py --stage debug   # ~1 min, checks the pipeline
-    python Person4/noise_experiments.py --stage main    # the real sweep
+    python analysis/noise_experiments.py --stage debug   # ~1 min, checks the pipeline
+    python analysis/noise_experiments.py --stage main    # the real sweep
 """
 import argparse
 import os

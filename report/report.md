@@ -61,7 +61,7 @@ VQC accuracy rises steadily with depth and has not levelled off by depth 6, the 
 1. More quantum structure was not better: the simplest encoding (no entanglement) beat the entangling one by about 23 points at 7 qubits.
 2. On this problem the best quantum models come close to, but do not beat, the classical ones: angle kernel 96.2% and VQC depth 6 94.8% vs SVM 97.7% at 200 samples. The task is easy (7 features, 4 well separated rooms), so there was little room for a quantum advantage.
 3. Cost: the 7-qubit simulated kernel took about 57 s to train at 200 samples, VQC depth 6 about 9 s, and the classical SVM 0.4 s. Kernel cost grows with the square of the training size.
-4. Limits: simulator only; 200 test samples (one sample = 0.5 points); one dataset; the quantum-kernel SVM used a fixed C=1 while the classical models were tuned (a check on the 4-qubit task, `Person4/check_C_tuning.py`, showed that tuning C by cross-validation changed kernel accuracy by at most 1.2 points and not consistently upward); VQC depth was only tested up to 6 and only on the 7-feature task; the noise sweep covers a small setting.
+4. Limits: simulator only; 200 test samples (one sample = 0.5 points); one dataset; the quantum-kernel SVM used a fixed C=1 while the classical models were tuned (a check on the 4-qubit task, `analysis/check_C_tuning.py`, showed that tuning C by cross-validation changed kernel accuracy by at most 1.2 points and not consistently upward); VQC depth was only tested up to 6 and only on the 7-feature task; the noise sweep covers a small setting.
 
 ## 7. AI tools, sources, who did what
 
