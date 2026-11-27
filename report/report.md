@@ -1,9 +1,8 @@
 ---
-title: "Quantum vs classical indoor localization from WiFi signals"
-subtitle: "Q//Horizon 2026 — Team report"
-author: "TODO team name; members: P1, P2, P3, P4"
-geometry: margin=1.8cm
-fontsize: 10pt
+Quantum vs classical indoor localization from WiFi signals
+Q//Horizon 2026 — Team report
+Team Hello qubit!
+Members: Jana Fawzi, Yasmine Mohamed, Jana Salama, Janna Alfiky
 ---
 
 ## 1. Question and data
@@ -68,8 +67,8 @@ VQC accuracy rises steadily with depth and has not levelled off by depth 6, the 
 
 ## 7. AI tools, sources, who did what
 
-**AI use.** We used Claude (Anthropic) to learn the basics, plan the project and draft scripts and report text; details in `AI_USE_LOG.md`. All numbers come from code in the repo.
+**AI use.** We used Claude (Anthropic) to learn the basics, plan the project and draft scripts and report text. All numbers come from code in the repo.
 
 **Sources.** See `SOURCES.md`: Bhatt (2017); Havlicek et al., *Nature* 567 (2019); Thanasilp et al., *Nat. Commun.* 15 (2024); Qiskit, scikit-learn.
 
-**Who did what.** P1: data, splits, baselines, evaluation. P2: quantum kernel track. P3: VQC track. P4: plots, noise experiments, README, report. **TODO: confirm.**
+**Who did what.** Jana Fawzi: data, splits, baselines, evaluation. Yasmine Mohamed: quantum kernel track. Jana Salama: VQC track. Janna Alfiky: plots, noise experiments, README, report. 
