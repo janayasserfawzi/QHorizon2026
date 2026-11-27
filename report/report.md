@@ -54,8 +54,6 @@ VQC accuracy rises steadily with depth and has not levelled off by depth 6, the 
 
 ## 5. Noise
 
-**TODO after the noise sweep: paste fig6 and 2–3 sentences.** Expected to say: the angle kernel uses only single-qubit gates and is barely affected, while the entangling ZZ circuit has more error sources. Check this against the numbers before writing it.
-
 ![Quantum kernel accuracy under simulated noise.](figures/fig6_noise.png){width=55%}
 
 ## 6. What we learned
