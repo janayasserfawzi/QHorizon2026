@@ -6,7 +6,7 @@ import time
 import pandas as pd
 from sklearn.metrics import accuracy_score, f1_score
 
-# Ensure repository root is importable
+
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if REPO_ROOT not in sys.path:
     sys.path.insert(0, REPO_ROOT)
@@ -26,30 +26,106 @@ def build_experiment_plan(stage: str):
     plan = []
 
     if stage == "debug":
-        # Fast 2-minute sanity check on binary_1v2 (rooms 1 vs 2, 7 qubits)
+       
         for enc in ["angle", "zz"]:
             for n in [25, 50, 100]:
-                plan.append(dict(task="binary_1v2", encoding=enc, depth=1, entanglement="linear", n_train=n, seed=0))
+                plan.append(
+                    dict(
+                        task="binary_1v2",
+                        encoding=enc,
+                        depth=1,
+                        entanglement="linear",
+                        n_train=n,
+                        seed=0,
+                    )
+                )
         return plan
 
-    if stage in ("main", "all"):
-        # 1. Main 7-qubit task ("4class"): compare Angle vs ZZ across all seeds & training sizes
+    if stage in ("binary", "all"):
+        # Complete binary_1v2 grid across all seeds & training sizes for fair comparison
         for seed in ALL_SEEDS:
             for n in ALL_N_TRAIN:
-                # Angle encoding baseline (reps=1; note ZFeatureMap reps>1 is redundant up to scaling)
-                plan.append(dict(task="4class", encoding="angle", depth=1, entanglement="none", n_train=n, seed=seed))
-                # ZZ feature map (depth 1 and depth 2)
-                plan.append(dict(task="4class", encoding="zz", depth=1, entanglement="linear", n_train=n, seed=seed))
-                plan.append(dict(task="4class", encoding="zz", depth=2, entanglement="linear", n_train=n, seed=seed))
+                plan.append(
+                    dict(
+                        task="binary_1v2",
+                        encoding="angle",
+                        depth=1,
+                        entanglement="none",
+                        n_train=n,
+                        seed=seed,
+                    )
+                )
+                plan.append(
+                    dict(
+                        task="binary_1v2",
+                        encoding="zz",
+                        depth=1,
+                        entanglement="linear",
+                        n_train=n,
+                        seed=seed,
+                    )
+                )
+
+    if stage in ("main", "all"):
+        # Main 7-qubit task ("4class"): compare Angle vs ZZ across all seeds & training sizes
+        for seed in ALL_SEEDS:
+            for n in ALL_N_TRAIN:
+                plan.append(
+                    dict(
+                        task="4class",
+                        encoding="angle",
+                        depth=1,
+                        entanglement="none",
+                        n_train=n,
+                        seed=seed,
+                    )
+                )
+                plan.append(
+                    dict(
+                        task="4class",
+                        encoding="zz",
+                        depth=1,
+                        entanglement="linear",
+                        n_train=n,
+                        seed=seed,
+                    )
+                )
+                plan.append(
+                    dict(
+                        task="4class",
+                        encoding="zz",
+                        depth=2,
+                        entanglement="linear",
+                        n_train=n,
+                        seed=seed,
+                    )
+                )
 
     if stage in ("qubits", "all"):
-        # 2. Varying number of qubits (4, 5, 6 qubits) across encodings, seeds & training sizes
-        # (7 qubits is already covered in 'main')
+        # Varying number of qubits (4, 5, 6 qubits) across encodings, seeds & training sizes
         for task in ["4class_f4", "4class_f5", "4class_f6"]:
             for seed in ALL_SEEDS:
                 for n in ALL_N_TRAIN:
-                    plan.append(dict(task=task, encoding="angle", depth=1, entanglement="none", n_train=n, seed=seed))
-                    plan.append(dict(task=task, encoding="zz", depth=1, entanglement="linear", n_train=n, seed=seed))
+                    plan.append(
+                        dict(
+                            task=task,
+                            encoding="angle",
+                            depth=1,
+                            entanglement="none",
+                            n_train=n,
+                            seed=seed,
+                        )
+                    )
+                    plan.append(
+                        dict(
+                            task=task,
+                            encoding="zz",
+                            depth=1,
+                            entanglement="linear",
+                            n_train=n,
+                            seed=seed,
+                        )
+                    )
 
     return plan
 
@@ -94,7 +170,6 @@ def run_single(cfg: dict) -> dict:
     f1 = float(f1_score(y_test, y_pred, average="macro"))
     conc = model.kernel_concentration_stats()
 
-    # Exact shared contract columns first, followed by helpful metadata
     return {
         "model": f"QKernel-{cfg['encoding']}",
         "encoding": cfg["encoding"],
@@ -116,7 +191,7 @@ def main():
     parser = argparse.ArgumentParser(description="Person 2: Quantum Kernel SVM Experiments")
     parser.add_argument(
         "--stage",
-        choices=["debug", "main", "qubits", "all"],
+        choices=["debug", "binary", "main", "qubits", "all"],
         default="debug",
         help="Which experiment sweep to run (default: debug)",
     )
@@ -128,11 +203,23 @@ def main():
     completed = load_completed_keys(args.out)
 
     pending = [
-        c for c in plan
-        if (c["task"], c["encoding"], c["depth"], c["entanglement"], c["n_train"], c["seed"]) not in completed
+        c
+        for c in plan
+        if (
+            c["task"],
+            c["encoding"],
+            c["depth"],
+            c["entanglement"],
+            c["n_train"],
+            c["seed"],
+        )
+        not in completed
     ]
 
-    print(f"[Stage: {args.stage}] Total planned: {len(plan)} | Already done: {len(plan) - len(pending)} | Remaining: {len(pending)}")
+    print(
+        f"[Stage: {args.stage}] Total planned: {len(plan)} | "
+        f"Already done: {len(plan) - len(pending)} | Remaining: {len(pending)}"
+    )
 
     for idx, cfg in enumerate(pending, start=1):
         row = run_single(cfg)
